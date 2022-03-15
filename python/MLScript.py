@@ -24,13 +24,13 @@ import string
 from sparkplug_b import *
 
 # Application Variables
-serverUrl = "grp-dev-docker-01.clarebout.com"
-myGroupId = "CLW-SENSOR"
-myNodeName = "Docker-ML"
-myDeviceName = "docker-Jasper"
+serverUrl = "localhost"
+myGroupId = "GROUP"
+myNodeName = "NODE"
+myDeviceName = "DEVICE"
 publishPeriod = 5000
-myUsername = "TECH_Ignition"
-myPassword = "Hk385Tuhlom"
+myUsername = "admin"
+myPassword = "password"
 
 class AliasMap:
     Next_Server = 0
@@ -100,7 +100,7 @@ def on_message(client, userdata, msg):
 
                 # Create the DDATA payload - Use the alias because this isn't the DBIRTH
                 payload = sparkplug.getDdataPayload()
-                template = initTemplateMetric(payload, "myDockerID", AliasMap.myDocker, "Docker_Cutting_Defects_V0_1")
+                template = initTemplateMetric(payload, "myTemplate", AliasMap.myDocker, "Template_V0_1")
                 publish = False
                 if metric.template_value.metrics[0].name == "input/Acknowledge_Y":
                     newValue = metric.template_value.metrics[0].int_value
@@ -151,7 +151,7 @@ def publishNodeBirth():
     addMetric(payload, "Node Control/Reboot", AliasMap.Reboot, MetricDataType.Boolean, False)
 
     # Create the UDT definition value which includes two UDT members and a single parameter and add it to the payload
-    template = initTemplateMetric(payload, "_types_/G_DOCKER-ML/Docker_Cutting_Defects_V0_1", None, None)    # No alias for Template definitions
+    template = initTemplateMetric(payload, "_types_/Template_V0_1", None, None)    # No alias for Template definitions
     # templateParameter = template.parameters.add()
     # templateParameter.name = "Index"
     # templateParameter.type = ParameterDataType.String
@@ -179,7 +179,7 @@ def publishDeviceBirth():
     payload = sparkplug.getDeviceBirthPayload()
 
     # Create the UDT definition value which includes two UDT members and a single parameter and add it to the payload
-    template = initTemplateMetric(payload, "myDockerID", AliasMap.myDocker, "G_DOCKER-ML/Docker_Cutting_Defects_V0_1")
+    template = initTemplateMetric(payload, "myTemplate", AliasMap.myDocker, "Template_V0_1")
     # templateParameter = template.parameters.add()
     # templateParameter.name = "Index"
     # templateParameter.type = ParameterDataType.String
